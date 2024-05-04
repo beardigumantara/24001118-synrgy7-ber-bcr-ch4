@@ -4,17 +4,10 @@ const {PORT = 8000} = process.env;
 const fs = require('fs');
 const path = require('path');
 const PUBLIC_DIR = path.join(__dirname, '/../public');
-const CSS_DIR = path.join(PUBLIC_DIR, '/css');
-const IMG_DIR = path.join(PUBLIC_DIR, '/images');
 
 function getHTML(htmlFileName) {
  const htmlPath = path.join(PUBLIC_DIR, htmlFileName);
  return fs.readFileSync(htmlPath, 'utf8');
-}
-
-function getCSS(cssFileName) {
- const cssPath = path.join(CSS_DIR, cssFileName);
- return fs.readFileSync(cssPath, 'utf8');
 }
 
 function onRequest(req, res) {
@@ -34,6 +27,11 @@ function onRequest(req, res) {
     const fileStream = fs.createReadStream(imgPath);
     res.writeHead(200, {'Content-Type': 'image/png'});
     fileStream.pipe(res);
+  } else if (req.url.match("\.js$")) {
+    const scriptPath = path.join(PUBLIC_DIR, req.url);
+    const fileStream = fs.createReadStream(scriptPath);
+    res.writeHead(200, { "Content-Type": "text/javascript" });
+    fileStream.pipe(res);
   } else {
     res.writeHead(404, {'Content-Type': 'text/html'});
     res.write(getHTML('404.html | page not found'));
@@ -43,5 +41,5 @@ function onRequest(req, res) {
 const server = http.createServer(onRequest);
 
 server.listen(PORT,'0.0.0.0', () => {
-  console.log('Server is running on http ://0.0.0.0:%d', PORT);
+  console.log('Server is running on http://0.0.0.0:%d', PORT);
 });
