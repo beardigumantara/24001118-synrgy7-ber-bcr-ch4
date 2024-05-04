@@ -11,5 +11,15 @@
   },
   "dependencies": {
     "nodemon": "^3.1.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beardigumantara/24001118-synrgy7-ber-bcr-ch4.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/beardigumantara/24001118-synrgy7-ber-bcr-ch4/issues"
+  },
+  "homepage": "https://github.com/beardigumantara/24001118-synrgy7-ber-bcr-ch4#readme"
 }

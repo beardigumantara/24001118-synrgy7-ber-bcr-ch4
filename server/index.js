@@ -1,1 +1,47 @@
-console.log("Implement servermu disini yak 😝!");
+const http = require('http');
+const {PORT = 8000} = process.env;
+
+const fs = require('fs');
+const path = require('path');
+const PUBLIC_DIR = path.join(__dirname, '/../public');
+const CSS_DIR = path.join(PUBLIC_DIR, '/css');
+const IMG_DIR = path.join(PUBLIC_DIR, '/images');
+
+function getHTML(htmlFileName) {
+ const htmlPath = path.join(PUBLIC_DIR, htmlFileName);
+ return fs.readFileSync(htmlPath, 'utf8');
+}
+
+function getCSS(cssFileName) {
+ const cssPath = path.join(CSS_DIR, cssFileName);
+ return fs.readFileSync(cssPath, 'utf8');
+}
+
+function onRequest(req, res) {
+  if (req.url === '/') {
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.write(getHTML('index.html'));
+  } else if (req.url === "/cars") {
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.write(getHTML('cars.html'));
+  } else if (req.url.match("\.css$")) {
+    const cssPath = path.join(PUBLIC_DIR, req.url);
+    const fileStream = fs.createReadStream(cssPath, "utf-8");
+    res.writeHead(200, {'Content-Type': 'text/css'});
+    fileStream.pipe(res);
+  } else if (req.url.match("\.png$")) {
+    const imgPath = path.join(PUBLIC_DIR, req.url);
+    const fileStream = fs.createReadStream(imgPath);
+    res.writeHead(200, {'Content-Type': 'image/png'});
+    fileStream.pipe(res);
+  } else {
+    res.writeHead(404, {'Content-Type': 'text/html'});
+    res.write(getHTML('404.html | page not found'));
+  }
+}
+
+const server = http.createServer(onRequest);
+
+server.listen(PORT,'0.0.0.0', () => {
+  console.log('Server is running on http ://0.0.0.0:%d', PORT);
+});
