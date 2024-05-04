@@ -27,7 +27,12 @@ function onRequest(req, res) {
     const fileStream = fs.createReadStream(imgPath);
     res.writeHead(200, {'Content-Type': 'image/png'});
     fileStream.pipe(res);
-  } else if (req.url.match("\.js$")) {
+  } else if (req.url.match("\.jpg$")) {
+    const imgPath = path.join(PUBLIC_DIR, req.url);
+    const fileStream = fs.createReadStream(imgPath);
+    res.writeHead(200, {'Content-Type': 'image/jpg'});
+    fileStream.pipe(res);
+  }else if (req.url.match("\.js$")) {
     const scriptPath = path.join(PUBLIC_DIR, req.url);
     const fileStream = fs.createReadStream(scriptPath);
     res.writeHead(200, { "Content-Type": "text/javascript" });
@@ -40,6 +45,6 @@ function onRequest(req, res) {
 
 const server = http.createServer(onRequest);
 
-server.listen(PORT,'0.0.0.0', () => {
-  console.log('Server is running on http://0.0.0.0:%d', PORT);
+server.listen(PORT,'localhost', () => {
+  console.log('Server is running on http://localhost:%d', PORT);
 });
