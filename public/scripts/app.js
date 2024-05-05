@@ -9,7 +9,6 @@ class App {
 
   async init() {
     await this.load();
-
     this.searchButton.onclick = this.find;
   }
 
@@ -26,11 +25,11 @@ class App {
   }
 
   find = async () => {
-    
+    this.filter();
   }
 
-  async load() {
-    const cars = await Binar.listCars(item => item.avaliableAt >= filterDate && (item.capacity >= filterCapacity));
+  async load(filterDate, filterCapacity) {
+    const cars = await Binar.listCars(item => item.availableAt >= filterDate && (item.capacity >= filterCapacity));
     console.log('cars: ',cars);
     Car.init(cars);
     Car.list.forEach((car) => {
