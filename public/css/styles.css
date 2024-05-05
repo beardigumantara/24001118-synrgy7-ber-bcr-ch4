@@ -37,6 +37,7 @@ ul li {
   font-size: 14px;
   font-weight: 700;
   padding: 8px 12px;
+  border-radius: 2px;
 }
 
 .navbar-toggler-icon {
